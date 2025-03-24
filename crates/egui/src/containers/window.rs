@@ -422,15 +422,17 @@ impl Window<'_> {
     pub fn show<R>(
         self,
         ctx: &Context,
-        add_contents: impl FnOnce(&mut Ui) -> R,
+        add_contents_body: impl FnOnce(&mut Ui) -> R,
+        add_contents_title_bar: impl FnOnce(&mut Ui) -> R,
     ) -> Option<InnerResponse<Option<R>>> {
-        self.show_dyn(ctx, Box::new(add_contents))
+        self.show_dyn(ctx, Box::new(add_contents_body), Box::new(add_contents_title_bar))
     }
 
     fn show_dyn<'c, R>(
         self,
         ctx: &Context,
-        add_contents: Box<dyn FnOnce(&mut Ui) -> R + 'c>,
+        add_contents_body: Box<dyn FnOnce(&mut Ui) -> R + 'c>,
+        add_contents_title_bar: Box<dyn FnOnce(&mut Ui) -> R + 'c>,
     ) -> Option<InnerResponse<Option<R>>> {
         let Window {
             title,
@@ -574,7 +576,7 @@ impl Window<'_> {
                                 + window_frame.inner_margin.sum().y,
                         );
                     }
-
+                    add_contents_title_bar(&mut frame.content_ui);
                     Some(title_bar)
                 } else {
                     None
@@ -584,9 +586,9 @@ impl Window<'_> {
                     .show_body_unindented(&mut frame.content_ui, |ui| {
                         resize.show(ui, |ui| {
                             if scroll.is_any_scroll_enabled() {
-                                scroll.show(ui, add_contents).inner
+                                scroll.show(ui, add_contents_body).inner
                             } else {
-                                add_contents(ui)
+                                add_contents_body(ui)
                             }
                         })
                     })

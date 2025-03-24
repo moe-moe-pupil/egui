@@ -54,7 +54,7 @@ impl ThreadState {
                     self.age += 1;
                 }
                 ui.label(format!("Hello '{}', age {}", self.name, self.age));
-            });
+            }, |ui| { dbg!(ui.max_rect());});
     }
 }
 
@@ -121,7 +121,7 @@ impl eframe::App for MyApp {
             if ui.button("Spawn another thread").clicked() {
                 self.spawn_thread();
             }
-        });
+        }, |ui| {});
 
         for (_handle, show_tx) in &self.threads {
             let _ = show_tx.send(ctx.clone());

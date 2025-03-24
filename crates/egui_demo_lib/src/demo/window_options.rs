@@ -75,7 +75,7 @@ impl crate::Demo for WindowOptions {
         if anchored {
             window = window.anchor(anchor, anchor_offset);
         }
-        window.show(ctx, |ui| self.ui(ui));
+        window.show(ctx, |ui| self.ui(ui), |ui| {});
     }
 }
 

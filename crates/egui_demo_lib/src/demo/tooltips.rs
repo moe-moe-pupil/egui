@@ -23,7 +23,7 @@ impl crate::Demo for Tooltips {
             .default_size([450.0, 300.0])
             .scroll(false)
             .open(open);
-        window.show(ctx, |ui| self.ui(ui));
+        window.show(ctx, |ui| self.ui(ui), |ui| {});
     }
 }
 

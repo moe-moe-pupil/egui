@@ -14,7 +14,7 @@ impl crate::Demo for Panels {
             .default_height(400.0)
             .vscroll(false)
             .open(open);
-        window.show(ctx, |ui| self.ui(ui));
+        window.show(ctx, |ui| self.ui(ui), |ui| {});
     }
 }
 

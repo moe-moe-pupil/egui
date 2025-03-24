@@ -29,7 +29,7 @@ impl crate::Demo for SceneDemo {
             .default_height(300.0)
             .scroll(false)
             .open(open);
-        window.show(ctx, |ui| self.ui(ui));
+        window.show(ctx, |ui| self.ui(ui), |ui| {});
     }
 }
 
